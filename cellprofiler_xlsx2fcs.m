@@ -10,19 +10,16 @@ for icnt=1:length(filelist)
     start_time=datetime('now','TimeZone','local','Format',' HH:mm:ss');
     variable=readtable(fullfile(data_path,filelist(icnt).name));
     end_time=datetime('now','TimeZone','local','Format',' HH:mm:ss');
-    time = variable(:,8);
-    unique_time=table2array(unique(time));
-    variabledata = array2table(rescale(table2array(variable(:,29:30)))*1028);
-    variabledata = [time,variabledata];
-    for jcnt=1:length(unique_time)
-        rows = variabledata.Metadata_Time == unique_time(jcnt);
-        subset_variable = variable(rows,:);
-        subset_variabledata=variabledata(rows,:);
-        fcsfilename=cat(2,fullfile(data_path,filelist(icnt).name),num2str(unique_time(jcnt)),'.fcs');
-        num_events=size(subset_variable);
-        [fcs_hdr]=flowjo_create_fcs_metadata(start_time,end_time,project,experiment,cells,...
+    time = variable(:,10);
+    variabledata = array2table(rescale(table2array(variable(:,39:40))));
+    ObjNumdata = variable(:,67);
+    TrackedObjNumdata = variable(:,72);
+    TrackedObjIndx = variable(:,73);
+    TraIndex = variable(:,1);
+    variabledata = [time,variabledata,ObjNumdata,TrackedObjNumdata,TrackedObjIndx,TraIndex];
+    fcsfilename=cat(2,fullfile(data_path,filelist(icnt).name),'.fcs');
+    num_events=size(variable);
+    [fcs_hdr]=flowjo_create_fcs_metadata(start_time,end_time,project,experiment,cells,...
             fcsfilename,data_path,num_events(1));
-        flowjo_export_data2fcs(fcsfilename, subset_variabledata, fcs_hdr)
-        
-    end
+    flowjo_export_data2fcs(fcsfilename, variabledata, fcs_hdr)
 end
