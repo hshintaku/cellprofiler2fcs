@@ -1,8 +1,8 @@
 function [fcs_hdr]=flowjo_create_fcs_metadata(start_time,end_time,project,experiment,cells,filename,data_path,num_of_event)
 software_ver='indexsort';
 creater='Hirofumi Shintaku';
-listpar={'time','mCherry-A','Venus-A'};
-listpar_blank={'','',''};
+listpar={'time','mCherry-A','Venus-A','ObjNum','TrackedObjNumdata','TrackedObjIndx','TraIndex'};
+listpar_blank={'','','','','','',''};
 
 NumOfPar=length(listpar);
 par=struct('name',listpar,...
