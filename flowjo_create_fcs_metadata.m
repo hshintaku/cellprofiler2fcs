@@ -1,8 +1,10 @@
-function [fcs_hdr]=flowjo_create_fcs_metadata(start_time,end_time,project,experiment,cells,filename,data_path,num_of_event)
+function [fcs_hdr]=flowjo_create_fcs_metadata(start_time,end_time,project,experiment,cells,filename,data_path,num_of_event,variableNames)
 software_ver='indexsort';
 creater='Hirofumi Shintaku';
-listpar={'time','mCherry-A','Venus-A','ObjNum','TrackedObjNumdata','TrackedObjIndx','TraIndex'};
-listpar_blank={'','','','','','',''};
+listpar=variableNames;
+NumVar = length(variableNames);
+listpar_blank = cell(1,NumVar);
+listpar_blank(1,:) = {''};
 
 NumOfPar=length(listpar);
 par=struct('name',listpar,...
